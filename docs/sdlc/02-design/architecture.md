@@ -15,7 +15,7 @@
 ┌───────────────────────────────────────────────────┐
 │ FerahCore (Swift Package, UI'dan bağımsız)          │
 │                                                     │
-│  ScanEngine ──► [JunkScanner] ──► [Finding]             │
+│  ScanEngine ──► [JunkScanner] ──► [Finding]         │
 │                     ▲                               │
 │  RuleEngine ────────┘ (yalnızca öneri üretir)       │
 │                                                     │
