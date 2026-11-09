@@ -1,0 +1,35 @@
+name: Hata
+description: Beklenmeyen davranış bildir
+labels: ["type: bug", "status: needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: "⚠️ Yanlış dosyanın silinmesi veya onay akışının atlanması gibi güvenlik sorunlarını lütfen **Security → Report a vulnerability** ile gizli bildir."
+  - type: textarea
+    id: what
+    attributes:
+      label: Ne oldu?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Ne bekliyordun?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Yeniden üretme adımları
+      value: |
+        1.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Ferah sürümü / commit
+  - type: input
+    id: macos
+    attributes:
+      label: macOS sürümü

@@ -1,0 +1,18 @@
+name: Görev
+description: Altyapı, refactor, doküman, CI
+labels: ["type: task", "status: needs-triage"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Yapılacak iş
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Tamamlanma kriterleri
+      value: |
+        - [ ]
+    validations:
+      required: true

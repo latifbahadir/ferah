@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: build-and-test
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Swift sürümü
+        run: swift --version
+
+      - name: FerahCore derle ve test et
+        if: hashFiles('Package.swift') != ''
+        run: swift test
+
+      - name: Henüz Swift paketi yok
+        if: hashFiles('Package.swift') == ''
+        run: echo "Package.swift bulunamadı; derleme adımı atlandı."

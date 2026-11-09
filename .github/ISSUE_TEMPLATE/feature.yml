@@ -1,0 +1,35 @@
+name: Özellik
+description: Kullanıcıya görünen yeni bir yetenek
+labels: ["type: feature", "status: needs-triage"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Amaç
+      description: Hangi problemi çözüyor? Kullanıcı ne kazanıyor?
+    validations:
+      required: true
+  - type: input
+    id: prd
+    attributes:
+      label: PRD gereksinimi
+      placeholder: FR-DEV-02
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Kabul kriterleri
+      value: |
+        - [ ]
+    validations:
+      required: true
+  - type: dropdown
+    id: safety
+    attributes:
+      label: Silme davranışını etkiliyor mu?
+      options:
+        - Hayır
+        - "Evet — 🟢 yeniden üretilebilir"
+        - "Evet — 🟡 kullanıcı dosyası"
+        - "Evet — 🔴 uygulama/sistem"
+    validations:
+      required: true

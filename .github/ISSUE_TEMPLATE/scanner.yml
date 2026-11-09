@@ -1,0 +1,40 @@
+name: Yeni tarayıcı
+description: Yeni bir çöp kaynağı (araç, önbellek, dizin) desteği öner
+labels: ["type: feature", "area: scanner", "status: needs-triage"]
+body:
+  - type: input
+    id: tool
+    attributes:
+      label: Araç / kaynak
+      placeholder: Flutter, Unity, JetBrains önbellekleri...
+    validations:
+      required: true
+  - type: textarea
+    id: paths
+    attributes:
+      label: Hedef yollar
+      description: Hangi dizinler/dosyalar? Örnek boyutlar?
+    validations:
+      required: true
+  - type: dropdown
+    id: safety
+    attributes:
+      label: Güvenlik seviyesi
+      options:
+        - "🟢 yeniden üretilebilir"
+        - "🟡 kullanıcı dosyası"
+        - "🔴 uygulama/sistem"
+    validations:
+      required: true
+  - type: textarea
+    id: action
+    attributes:
+      label: Temizlik yöntemi
+      description: Çöp Sepeti'ne taşıma mı, aracın resmi komutu mu (hangisi)?
+    validations:
+      required: true
+  - type: textarea
+    id: regenerate
+    attributes:
+      label: Nasıl yeniden oluşur?
+      description: Silindikten sonra kullanıcı neyi kaybeder, nasıl geri gelir?
