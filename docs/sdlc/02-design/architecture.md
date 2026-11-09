@@ -95,12 +95,21 @@ public protocol JunkScanner: Sendable {
 
 ## Korunan yollar
 
-Aşağıdakiler ve altları hiçbir eylemde hedeflenemez; kontrol `ActionExecutor` içinde, her eylemden hemen önce, sembolik bağlantılar çözüldükten sonra yapılır:
+Uygulama: `Sources/FerahCore/Safety/ProtectedPaths.swift`. Kontrol `ActionExecutor` içinde, her eylemden hemen önce yapılır. Yol önce çözülür: sembolik bağlantılar `realpath` ile takip edilir, `..` POSIX'teki gibi *çözülmüş* üst dizine göre uygulanır (var olmayan kuyruk bileşenleri de dahil). Hem bağlantının kendisi hem hedefi kontrol edilir; hangisi korunuyorsa yol reddedilir. Karşılaştırma büyük/küçük harf ve Unicode (NFC) normalizasyonundan bağımsızdır.
+
+Kendisi ve altındaki her şey reddedilir:
 
 - `/System`, `/usr` (`/usr/local` hariç), `/bin`, `/sbin`, `/private/etc`, `/private/var/db`
-- `/Applications` altındaki Apple sistem uygulamaları
-- `~` (ev dizininin kendisi), `~/Library` (kendisi), `~/Documents`, `~/Desktop` ve `~/Pictures/Photos Library.photoslibrary` (kendileri; yalnızca içlerindeki tek tek dosyalar önerilebilir)
+- `/Applications` altındaki Apple sistem uygulamaları (`com.apple.*` paket kimliği; App Store makbuzu olan Pages, Keynote, Xcode gibi uygulamalar kaldırılabilir)
+- `~/Pictures/Photos Library.photoslibrary` (içini kısmen silmek arşivi bozar)
 - Herhangi bir `.git` dizini
+
+Yalnızca kendisi reddedilir; içindeki tek tek öğeler önerilebilir:
+
+- `/`, `/Applications`, `/Library`, `/Users`, `/Volumes`, `/private`, `/private/var`
+- `~` (ev dizininin kendisi), `~/Library`, `~/Documents`, `~/Desktop`
+
+Ayrıca korunan herhangi bir yolu **içeren** üst dizin de reddedilir (ör. `~/..` veya `~/Pictures`): üst dizini taşımak korunan yolu da taşır.
 
 ## Arka plan
 
