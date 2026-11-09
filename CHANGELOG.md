@@ -9,3 +9,4 @@ Bu dosya [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) biçimini i
 - Dependabot PR'larının otomatik olarak bir bakım issue'suna bağlanması.
 - Ferah.app iskeleti: ana pencere ve menü çubuğu yer tutucusu (SwiftUI, macOS 14+).
 - swift-format yapılandırması ve yasaklı API denetimi (CI'da zorunlu).
+- Korunan yollar (`ProtectedPaths`): sistem dizinleri, ev dizini kökleri, `.git` dizinleri ve Apple sistem uygulamaları hiçbir eylemde hedeflenemez; symlink, `..` ve harf varyasyonu kaçışları için güvenlik regresyon testleri.
