@@ -15,7 +15,7 @@
 ┌───────────────────────────────────────────────────┐
 │ FerahCore (Swift Package, UI'dan bağımsız)          │
 │                                                     │
-│  ScanEngine ──► [Scanner] ──► [Finding]             │
+│  ScanEngine ──► [JunkScanner] ──► [Finding]             │
 │                     ▲                               │
 │  RuleEngine ────────┘ (yalnızca öneri üretir)       │
 │                                                     │
@@ -76,7 +76,7 @@ public enum CleanupAction: Sendable {
     case uninstallApp(AppBundle)       // uygulama + kalıntılar (+ brew cask)
 }
 
-public protocol Scanner: Sendable {
+public protocol JunkScanner: Sendable {
     var id: String { get }
     var displayName: String { get }
     func scan(_ context: ScanContext) async throws -> [Finding]
