@@ -16,7 +16,11 @@ Yeni issue'lar `status: needs-triage` ile gelir. Triage sırasında: tür, area,
 
 ## Bağımlılıklar
 
-Dependabot, GitHub Actions ve Swift paketleri için haftalık güncelleme PR'ları açar. Bu PR'lar da aynı kurallara tabidir; ilgili bakım issue'suna bağlanır.
+Dependabot, GitHub Actions ve Swift paketleri için haftalık güncelleme PR'ları açar. Bu PR'lar da aynı kurallara tabidir:
+
+- `PR Policy` iş akışı her Dependabot PR'ı için `dependencies` etiketli bir bakım issue'su açar (başlık: `Bağımlılık güncellemesi: … (PR #N)`) ve PR açıklamasına `Closes #<issue>` ekler.
+- PR birleşince issue otomatik kapanır; PR birleşmeden kapanırsa issue "not planned" olarak kapatılır.
+- Birleştirme kararı yine maintainer'ındır.
 
 ## Güvenlik
 

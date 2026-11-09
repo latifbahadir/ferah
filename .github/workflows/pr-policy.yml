@@ -1,24 +1,81 @@
 name: PR Policy
 
+# Her PR bir issue'ya bağlı olmalıdır (docs/sdlc/README.md).
+# Dependabot PR'ları için bakım issue'su otomatik açılır ve PR'a bağlanır.
+# Bu iş akışı PR kodunu checkout etmez; yalnızca PR başlığı/açıklaması okunur.
+
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, edited, synchronize, reopened, closed]
 
 permissions:
   contents: read
 
+concurrency:
+  group: pr-policy-${{ github.event.pull_request.number }}
+
+env:
+  GH_TOKEN: ${{ github.token }}
+  GH_REPO: ${{ github.repository }}
+  PR_NUMBER: ${{ github.event.pull_request.number }}
+  PR_TITLE: ${{ github.event.pull_request.title }}
+  PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+
 jobs:
   issue-link:
     name: issue-link
+    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
     steps:
       - name: PR bir issue'ya bağlı mı?
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          if printf '%s' "$PR_BODY" | grep -Eiq '(close[sd]?|fix(e[sd])?|resolve[sd]?)[[:space:]]+#[0-9]+'; then
+          link_re='(close[sd]?|fix(e[sd])?|resolve[sd]?)[[:space:]]+#[0-9]+'
+          if printf '%s' "$PR_BODY" | grep -Eiq "$link_re"; then
             echo "✓ Issue bağlantısı bulundu."
-          else
+            exit 0
+          fi
+
+          if [ "$PR_AUTHOR" != "dependabot[bot]" ]; then
             echo "::error::PR açıklamasında 'Closes #<issue>' satırı bulunmalı. Her PR bir issue'ya yönelik olmalıdır."
             exit 1
+          fi
+
+          # Dependabot: bu PR için açılmış bakım issue'sunu bul, yoksa aç.
+          suffix="(PR #$PR_NUMBER)"
+          issue=$(gh issue list --label dependencies --state all --limit 500 --json number,title \
+            -q ".[] | select(.title | endswith(\"$suffix\")) | .number" | head -n1)
+          if [ -z "$issue" ]; then
+            gh label create dependencies --color 0366d6 --description "Bağımlılık güncellemeleri" --force >/dev/null
+            body=$(printf 'Dependabot bağımlılık güncellemesi. İlgili PR: #%s\n\nBu issue PR Policy iş akışı tarafından otomatik açıldı; PR birleşince kapanır.' "$PR_NUMBER")
+            url=$(gh issue create --title "Bağımlılık güncellemesi: $PR_TITLE $suffix" --body "$body" \
+              --label "type: task" --label "area: infra" --label dependencies)
+            issue=${url##*/}
+          fi
+
+          new_body=$(printf 'Closes #%s\n\n%s' "$issue" "$PR_BODY")
+          gh pr edit "$PR_NUMBER" --body "$new_body"
+          echo "✓ Dependabot PR'ı #$issue numaralı issue'ya bağlandı."
+
+  close-orphan-issue:
+    name: close-orphan-issue
+    if: >-
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == false &&
+      github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Birleşmeden kapanan Dependabot PR'ının issue'sunu kapat
+        run: |
+          suffix="(PR #$PR_NUMBER)"
+          issue=$(gh issue list --label dependencies --state open --limit 500 --json number,title \
+            -q ".[] | select(.title | endswith(\"$suffix\")) | .number" | head -n1)
+          if [ -n "$issue" ]; then
+            gh issue close "$issue" --reason "not planned" --comment "#$PR_NUMBER birleştirilmeden kapandı."
           fi
