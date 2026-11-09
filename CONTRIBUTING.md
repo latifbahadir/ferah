@@ -22,4 +22,4 @@ Ferah'a katkı yapmak istediğin için teşekkürler! Süreç kısaca:
 
 ## Yeni tarayıcı eklemek
 
-Tarayıcılar (`Scanner`) eklenti gibi tasarlanmıştır. "Yeni tarayıcı" issue şablonunu kullan ve [mimari dokümanındaki](docs/sdlc/02-design/architecture.md) sözleşmeyi izle.
+Tarayıcılar (`JunkScanner`) eklenti gibi tasarlanmıştır. "Yeni tarayıcı" issue şablonunu kullan ve [mimari dokümanındaki](docs/sdlc/02-design/architecture.md) sözleşmeyi izle.
