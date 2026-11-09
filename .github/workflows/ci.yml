@@ -30,6 +30,12 @@ jobs:
         if: hashFiles('Package.swift') != ''
         run: swift run ferah --version
 
+      - name: Ferah.app derle
+        if: hashFiles('App/Ferah.xcodeproj/project.pbxproj') != ''
+        run: |
+          xcodebuild -project App/Ferah.xcodeproj -scheme Ferah -configuration Debug \
+            -derivedDataPath .build/xcode CODE_SIGNING_ALLOWED=NO build
+
       - name: Henüz Swift paketi yok
         if: hashFiles('Package.swift') == ''
         run: echo "Package.swift bulunamadı; derleme adımı atlandı."

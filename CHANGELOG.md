@@ -7,3 +7,4 @@ Bu dosya [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) biçimini i
 ### Eklendi
 - Repo iskeleti, PDLC/SDLC süreç dokümanları, issue/PR şablonları, CI ve PR politikası.
 - Dependabot PR'larının otomatik olarak bir bakım issue'suna bağlanması.
+- Ferah.app iskeleti: ana pencere ve menü çubuğu yer tutucusu (SwiftUI, macOS 14+).

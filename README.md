@@ -49,6 +49,18 @@
 - macOS 14 Sonoma veya üzeri
 - Geliştirme: Xcode 16+ / Swift 6
 
+## Derleme
+
+```bash
+# Çekirdek + CLI
+swift test
+swift run ferah --version
+
+# Uygulama (Xcode'da açmak için: open App/Ferah.xcodeproj)
+xcodebuild -project App/Ferah.xcodeproj -scheme Ferah -configuration Release -derivedDataPath .build/xcode build
+open .build/xcode/Build/Products/Release/Ferah.app
+```
+
 ## Lisans
 
 [MIT](LICENSE)
