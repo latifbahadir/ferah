@@ -26,6 +26,10 @@ jobs:
         if: hashFiles('Package.swift') != ''
         run: swift test
 
+      - name: ferah CLI çalışıyor mu?
+        if: hashFiles('Package.swift') != ''
+        run: swift run ferah --version
+
       - name: Henüz Swift paketi yok
         if: hashFiles('Package.swift') == ''
         run: echo "Package.swift bulunamadı; derleme adımı atlandı."
