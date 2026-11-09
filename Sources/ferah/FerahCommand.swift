@@ -7,9 +7,9 @@ struct FerahCommand: ParsableCommand {
         commandName: "ferah",
         abstract: "\(FerahInfo.tagline) Geliştirici odaklı macOS temizlik asistanı.",
         discussion: """
-        Ferah hiçbir şeyi onayın olmadan silmez. Alt komutlar (scan, clean, history, undo) \
-        sonraki sürümlerde eklenecek.
-        """,
+            Ferah hiçbir şeyi onayın olmadan silmez. Alt komutlar (scan, clean, history, undo) \
+            sonraki sürümlerde eklenecek.
+            """,
         version: FerahInfo.version
     )
 }

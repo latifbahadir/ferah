@@ -6,7 +6,11 @@ Ferah'a katkı yapmak istediğin için teşekkürler! Süreç kısaca:
 2. **Branch aç.** `main`'den, issue numarasıyla: `feat/12-xcode-tarayici`, `fix/34-trash-hatasi`.
    Ayrıntı: [docs/sdlc/03-implementation/branching-and-commits.md](docs/sdlc/03-implementation/branching-and-commits.md)
 3. **Küçük, odaklı değişiklik yap.** Bir PR = bir issue.
-4. **Test et.** `swift test` geçmeli. Silme davranışını etkileyen her değişiklik test içermeli.
+4. **Test et.** `swift test` geçmeli. Silme davranışını etkileyen her değişiklik test içermeli. Göndermeden önce:
+   ```bash
+   swift format format --in-place --recursive Package.swift Sources Tests App
+   scripts/check-forbidden-apis.sh
+   ```
 5. **PR aç.** Açıklamada `Closes #<issue>` zorunludur — yoksa `PR Policy / issue-link` kontrolü başarısız olur.
 6. **Review ve birleştirme.** PR'lar yalnızca maintainer (@latifbahadir) tarafından, CI yeşilken birleştirilir. Birleştirme yöntemi: squash.
 
